@@ -56,8 +56,8 @@ fi
 # get sudo to ask for password so that it wouldn't do it later in the process
 sudo id
 
-tar xvzf libressl-2.3.2.tar.gz
-cd libressl-2.3.2
+tar xvzf $libressl_tarball 
+cd $libressl
 echo "Configuring libressl"
 time ./configure --prefix=/opt/libressl | tee configure.log
 echo "Building libressl"
@@ -68,8 +68,8 @@ echo "Libressl installed to /opt/libressl"
 # change back to build directory
 cd ..
 
-tar xvzf openssh-7.1p2.tar.gz
-cd openssh-7.1p2
+tar xvzf $openssh_tarball 
+cd $openssh
 echo "Configuring openssh"
 export LD_LIBRARY_PATH=/opt/libressl/lib
 ./configure --prefix=/opt/openssh --with-ssl-dir=/opt/libressl | tee configure.log
