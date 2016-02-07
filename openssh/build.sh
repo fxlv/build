@@ -12,10 +12,14 @@ elif [ "$OSTYPE" == "linux-gnu" ]; then
     md5summ_field=1 # linux
     md5sum="md5sum"
     echo "Running on Linux"
+else
+    echo "This is not a supported OS. Perhaps some BSD? Will use linux settings."
+    md5summ_field=1 # linux
+    md5sum="md5sum"
 fi
 
-libressl=libressl-2.3.2
-openssh=openssh-7.1p2
+libressl="libressl-2.3.2"
+openssh="openssh-7.1p2"
 
 libressl_tarball="${libressl}.tar.gz"
 openssh_tarball="${openssh}.tar.gz"
@@ -35,8 +39,13 @@ else
     echo "OpenSSH tarball already present"
 fi
 
-md5_libressl=$($md5sum ${libressl_tarball} | cut -f $md5summ_field -d " ")
-md5_openssh=$($md5sum ${openssh_tarball} | cut -f $md5summ_field -d " ")
+function get_md5sum()
+{
+    echo $($md5sum ${1} | cut -f $md5summ_field -d " ")
+}
+
+md5_libressl=$(get_md5sum $libressl_tarball)
+md5_openssh=$(get_md5sum $openssh_tarball)
 
 
 if [ "$expected_md5_libressl" != "$md5_libressl" ]; then
