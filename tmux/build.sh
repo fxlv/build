@@ -44,7 +44,7 @@ fi
 
 function get_md5sum()
 {
-    echo $($md5sum ${1} | cut -f $md5summ_field -d " ")
+    $md5sum "${1}" | cut -f $md5summ_field -d " "
 }
 
 md5_libevent=$(get_md5sum $libevent_tarball)
