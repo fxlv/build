@@ -12,7 +12,14 @@ elif [ "$OSTYPE" == "linux-gnu" ]; then
     md5summ_field=1 # linux
     md5sum="md5sum"
     echo "Running on Linux"
-    sudo apt-get -y install build-essential bzip2 curl libncurses5-dev bc
+    if [ -e /etc/fedora-release ]; then
+        echo "Dependency installation on Fedora is not supported"
+    elif [ -e /etc/debian_version ]; then
+        sudo apt-get -y install build-essential bzip2 curl libncurses5-dev bc
+    else
+        echo "You are running an unsupported linux distro."
+        echo "Please install dependencies by yourself."
+    fi
 else
     echo "This is not a supported OS. Perhaps some BSD? Will use linux settings."
     md5summ_field=1 # linux
