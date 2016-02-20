@@ -6,10 +6,14 @@
 
 # nrpe requires libssl and at least on ARM Debian the configure script cannot find it by itself
 # so we have to find it for it
+if ! dpkg -l libssl-dev > /dev/null; then
+    echo "libssl-dev is not installed, will try to install it for you"
+    sudo apt-get install libssl-dev
+fi
 
 libssl_path="$(dirname "$(dpkg -L libssl-dev | grep libssl.so)")"
 
-curl -L -OO nrpe.tar.gz http://sourceforge.net/projects/nagios/files/nrpe-2.x/nrpe-2.15/nrpe-2.15.tar.gz
+curl -L  -O http://fx.lv/nrpe/nrpe-2.15.tar.gz
 md5=$(md5sum nrpe-2.15.tar.gz|cut -f 1 -d " ")
 if [ "$md5" == "3921ddc598312983f604541784b35a50" ]; then
 	echo "Checksum OK"
