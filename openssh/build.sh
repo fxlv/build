@@ -41,7 +41,7 @@ fi
 
 function get_md5sum()
 {
-    echo $($md5sum ${1} | cut -f $md5summ_field -d " ")
+    echo "$($md5sum ${1} | cut -f $md5summ_field -d " ")"
 }
 
 md5_libressl=$(get_md5sum $libressl_tarball)
