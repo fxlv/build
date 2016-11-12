@@ -15,7 +15,7 @@ elif [ "$OSTYPE" == "linux-gnu" ]; then
     if [ -e /etc/fedora-release ]; then
         echo "Dependency installation on Fedora is not supported"
     elif [ -e /etc/debian_version ]; then
-        sudo apt-get -y install build-essential bzip2 curl libncurses5-dev bc
+        sudo apt-get -y install build-essential bzip2 curl libncurses5-dev bc pkg-config
     else
         echo "You are running an unsupported linux distro."
         echo "Please install dependencies by yourself."
@@ -27,7 +27,7 @@ else
 fi
 
 libevent="libevent-2.0.22"
-tmux="tmux-2.1"
+tmux="tmux-2.3"
 
 libevent_dir="${libevent}-stable"
 
@@ -35,7 +35,7 @@ libevent_tarball="${libevent}-stable.tar.gz"
 tmux_tarball="${tmux}.tar.gz"
 
 expected_md5_libevent="c4c56f986aa985677ca1db89630a2e11"
-expected_md5_tmux="74a2855695bccb51b6e301383ad4818c"
+expected_md5_tmux="fcfd1611d705d8b31df3c26ebc93bd3e"
 
 echo "Libevent tarball $libevent_tarball"
 if [ ! -e $libevent_tarball ]; then
@@ -44,7 +44,7 @@ else
     echo "Libevent tarball already present"
 fi
 if [ ! -e $tmux_tarball ]; then
-    curl -L -O "https://github.com/tmux/tmux/releases/download/2.1/${tmux_tarball}"
+    curl -L -O "https://github.com/tmux/tmux/releases/download/2.3/${tmux_tarball}"
 else
     echo "Tmux tarball already present"
 fi
@@ -87,7 +87,7 @@ cd ..
 tar xvzf $tmux_tarball
 cd $tmux
 echo "Configuring tmux"
-CPPFLAGS="-L/opt/libevent/lib -I/opt/libevent/include" LDFLAGS="-L/opt/libevent/lib -I/opt/libevent/include" ./configure --enable-static | tee configure.log
+CPPFLAGS="-L/opt/libevent/lib -I/opt/libevent/include" CFLAGS="-L/opt/libevent/lib -I/opt/libevent/include" LDFLAGS="-L/opt/libevent/lib -I/opt/libevent/include" ./configure --enable-static | tee configure.log
 echo "Building tmux"
 time make | tee make.log
 echo "Tmux built"
